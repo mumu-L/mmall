@@ -63,7 +63,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     public ServerResponse<String> checkValid(String str, String type){
-         if(StringUtils.isNoneBlank(type)){
+         if(StringUtils.isNotBlank(type)){
              //开始校验
              if(Const.USERNAME.equals(type)){
                  int resultCount = userMapper.checkUsername(str);
@@ -94,7 +94,7 @@ public class UserServiceImpl implements IUserService {
         }
 
         String question =userMapper.selectQuestionByUserName(username);
-        if(StringUtils.isNoneBlank(question)){
+        if(StringUtils.isNotBlank(question)){
             return ServerResponse.createBySuccess(question);
         }
 
@@ -113,8 +113,8 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createByErrorMessage("问题答案错误");
     }
 
-    public  ServerResponse<String> forgetResetPassword(String username, String passworldNew, String forgetToken){
-        if(StringUtils.isNoneBlank(forgetToken)){
+    public  ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken){
+        if(StringUtils.isBlank(forgetToken)){
             return ServerResponse.createByErrorMessage("参数错误，Token需要传递");
         }
 
@@ -126,12 +126,12 @@ public class UserServiceImpl implements IUserService {
         }
 
         String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX + username);
-        if(StringUtils.isNoneBlank(token)){
+        if(StringUtils.isBlank(token)){
             return ServerResponse.createByErrorMessage("token无效或过期");
         }
 
         if(StringUtils.equals(forgetToken,token)){
-            String md5Pwd = MD5Util.MD5EncodeUtf8(passworldNew);
+            String md5Pwd = MD5Util.MD5EncodeUtf8(passwordNew);
             int rowCount = userMapper.updatePassworldByUsername(username,md5Pwd);
             if(rowCount > 0){
                 return  ServerResponse.createBySuccess("修改密码成功");

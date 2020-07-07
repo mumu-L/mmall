@@ -101,8 +101,8 @@ public class UserController {
 
     @RequestMapping(value = "forget_reset_passworld.do", method = RequestMethod.POST)
     @ResponseBody
-    public  ServerResponse<String> forgetResetPassword(String username, String passworldNew, String forgetToken){
-        return iUserService.forgetResetPassword(username, passworldNew, forgetToken);
+    public  ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken){
+        return iUserService.forgetResetPassword(username, passwordNew, forgetToken);
     }
 
     @RequestMapping(value = "reset_passworld.do", method = RequestMethod.POST)
